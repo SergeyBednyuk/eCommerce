@@ -1,7 +1,6 @@
 using eCommerce.Api.Middlewares;
 using eCommerce.Application;
 using eCommerce.infrastructure;
-us
 
 namespace eCommerce.Api;
 
