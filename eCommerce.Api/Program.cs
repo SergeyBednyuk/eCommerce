@@ -1,5 +1,7 @@
+using eCommerce.Api.Middlewares;
 using eCommerce.Application;
 using eCommerce.infrastructure;
+us
 
 namespace eCommerce.Api;
 
@@ -16,6 +18,8 @@ public class Program
         
         var app = builder.Build();
 
+        app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+        
         //Routing
         app.UseRouting();
         
