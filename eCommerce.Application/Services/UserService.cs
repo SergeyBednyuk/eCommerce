@@ -1,4 +1,5 @@
-﻿using eCommerce.Application.Dtos;
+﻿using AutoMapper;
+using eCommerce.Application.Dtos;
 using eCommerce.Application.ServicesInterfaces;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.RepositoriesInterfaces;
@@ -8,10 +9,12 @@ namespace eCommerce.Application.Services;
 internal class UserService : IUserService
 {
     private readonly IUsersRepository _usersRepository;
+    private readonly IMapper _mapper;
 
-    public UserService(IUsersRepository usersRepository)
+    public UserService(IUsersRepository usersRepository, IMapper mapper)
     {
         _usersRepository = usersRepository;
+        _mapper = mapper;
     }
 
     public async Task<AuthenticationResponse> Login(LoginRequest request)
@@ -22,29 +25,22 @@ internal class UserService : IUserService
             return new AuthenticationResponse();
         }
 
-        return new AuthenticationResponse(result.UserID, result.Email,
-            $"{result.FirstName}  {result.LastName}", result.Gender, "ValidToken", true);
+        var response = _mapper.Map<AuthenticationResponse>(result) with { IsSuccess = true, Token = "ValidToken" };
+        return response;
     }
 
     public async Task<AuthenticationResponse> Register(RegisterRequest request)
     {
-        var newUser = new ApplicationUser
-        {
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Gender = request.Gender.ToString(),
-            Pasword = request.Password,
-        };
-        
+        var newUser = _mapper.Map<ApplicationUser>(request);
+
         var result = await _usersRepository.AddUserAsync(newUser);
 
         if (result == null)
         {
             return new AuthenticationResponse();
         }
-        
-        return new AuthenticationResponse(result.UserID, result.Email,
-            $"{result.FirstName}  {result.LastName}", result.Gender, "ValidToken", true);
+
+        var response = _mapper.Map<AuthenticationResponse>(result) with { IsSuccess = true, Token = "ValidToken" };
+        return response;
     }
 }

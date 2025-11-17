@@ -1,5 +1,7 @@
+using System.Text.Json.Serialization;
 using eCommerce.Api.Middlewares;
 using eCommerce.Application;
+using eCommerce.Application.Mappers;
 using eCommerce.infrastructure;
 
 namespace eCommerce.Api;
@@ -13,7 +15,10 @@ public class Program
         //add services registration
         builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddApplication();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
         
         var app = builder.Build();
 

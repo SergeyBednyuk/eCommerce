@@ -8,14 +8,17 @@ internal class UserRepository : IUsersRepository
 {
     public async Task<ApplicationUser?> AddUserAsync(ApplicationUser user)
     {
+        await Task.Delay(1000);
+        
         //Generate new guid
         user.UserID = Guid.NewGuid();
-
         return user;
     }
 
     public async Task<ApplicationUser?> GetUserByEmailAndPasswordAsync(string? email, string? password)
     {
+        await Task.Delay(1000);
+        
         return new ApplicationUser
         {
             UserID = Guid.NewGuid(),
