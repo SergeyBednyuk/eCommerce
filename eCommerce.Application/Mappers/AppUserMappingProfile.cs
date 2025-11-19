@@ -27,7 +27,7 @@ public class AppUserMappingProfile : Profile
         CreateMap<RegisterRequest, ApplicationUser>()
             .ForMember(dest => dest.Email,
                 opt => opt.MapFrom(src => src.Email))
-            .ForMember(dest => dest.Pasword,
+            .ForMember(dest => dest.Password,
                 opt => opt.MapFrom(src => src.Password))
             .ForMember(dest => dest.FirstName,
                 opt => opt.MapFrom(src => src.FirstName))

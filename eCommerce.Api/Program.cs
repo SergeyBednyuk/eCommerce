@@ -19,6 +19,17 @@ public class Program
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+            });
+        });
+        
+        //Add API explorer services
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
         
         var app = builder.Build();
 
@@ -26,6 +37,11 @@ public class Program
         
         //Routing
         app.UseRouting();
+        
+        //Swagger
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseCors();
         
         //Auth
         app.UseAuthentication();

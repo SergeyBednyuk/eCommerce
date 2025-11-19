@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using eCommerce.Application.Utils;
 using eCommerce.Domain.Entities;
 using eCommerce.Domain.RepositoriesInterfaces;
 using eCommerce.infrastructure.DbContext;
@@ -15,27 +14,21 @@ internal class UserRepository(DapperDbContext context) : IUsersRepository
         //Generate new guid
         user.UserId = Guid.NewGuid();
 
-        var query = @"
-        INSERT INTO Users (UserId, Email, Password, FirstName, LastName, Gender) 
-        VALUES (@UserId, @Email, @Pasword, @FirstName, @LastName, @Gender)";
-        
+        var query =
+            "INSERT INTO \"Users\" (\"UserId\", \"Email\", \"Password\", \"FirstName\", \"LastName\", \"Gender\")" +
+            "VALUES (@UserId, @Email, @Password, @FirstName, @LastName, @Gender)";
+
         var rows = await _context.DbConnection.ExecuteAsync(query, user);
-        
-        return rows > 0 ? user :  null;
+
+        return rows > 0 ? user : null;
     }
 
     public async Task<ApplicationUser?> GetUserByEmailAndPasswordAsync(string? email, string? password)
     {
-        await Task.Delay(1000);
-        
-        return new ApplicationUser
-        {
-            UserId = Guid.NewGuid(),
-            Email = email,
-            Pasword = password,
-            FirstName = "FirstName",
-            LastName = "LastName",
-            Gender = nameof(GenderOptions.Other)
-        };
+        var query = "SELECT * FROM \"Users\" WHERE \"Email\"=@Email AND \"Password\"=@Password";
+
+        var result = await _context.DbConnection.QueryFirstOrDefaultAsync<ApplicationUser>(query, new { email, password });
+
+        return result;
     }
 }
