@@ -15,7 +15,7 @@ internal class UserRepository(DapperDbContext context) : IUsersRepository
         user.UserId = Guid.NewGuid();
 
         var query =
-            "INSERT INTO \"Users\" (\"UserId\", \"Email\", \"Password\", \"FirstName\", \"LastName\", \"Gender\")" +
+            "INSERT INTO \"ApplicationUsers\" (\"UserId\", \"Email\", \"Password\", \"FirstName\", \"LastName\", \"Gender\")" +
             "VALUES (@UserId, @Email, @Password, @FirstName, @LastName, @Gender)";
 
         var rows = await _context.DbConnection.ExecuteAsync(query, user);
@@ -25,7 +25,7 @@ internal class UserRepository(DapperDbContext context) : IUsersRepository
 
     public async Task<ApplicationUser?> GetUserByEmailAndPasswordAsync(string? email, string? password)
     {
-        var query = "SELECT * FROM \"Users\" WHERE \"Email\"=@Email AND \"Password\"=@Password";
+        var query = "SELECT * FROM \"ApplicationUsers\" WHERE \"Email\"=@Email AND \"Password\"=@Password";
 
         var result = await _context.DbConnection.QueryFirstOrDefaultAsync<ApplicationUser>(query, new { email, password });
 
