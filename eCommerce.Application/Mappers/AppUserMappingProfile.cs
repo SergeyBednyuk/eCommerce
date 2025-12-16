@@ -35,6 +35,9 @@ public class AppUserMappingProfile : Profile
                 opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.Gender,
                 opt => opt.MapFrom(src => src.Gender));
-        
+
+        CreateMap<ApplicationUser, AppUserDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId))
+            .ReverseMap();
     }
 }

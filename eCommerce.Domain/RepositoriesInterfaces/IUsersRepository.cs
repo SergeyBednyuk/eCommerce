@@ -21,4 +21,11 @@ public interface IUsersRepository
     /// <param name="password"></param>
     /// <returns></returns>
     Task<ApplicationUser?> GetUserByEmailAndPasswordAsync(string? email, string? password);
+    
+    /// <summary>
+    /// Returns application user by user id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>Application user object</returns>
+    Task<ApplicationUser?> GetUserByUserIdAsync(Guid? userId);
 }

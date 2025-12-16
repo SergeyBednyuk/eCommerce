@@ -14,7 +14,6 @@ public static class DependencyInjection
         services.AddTransient<DapperDbContext>();
         services.AddScoped<IUsersRepository, UserRepository>();
         
-        
         return services;
     }
 }

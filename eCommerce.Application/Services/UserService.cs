@@ -43,4 +43,13 @@ internal class UserService : IUserService
         var response = _mapper.Map<AuthenticationResponse>(result) with { IsSuccess = true, Token = "ValidToken" };
         return response;
     }
+
+    public async Task<UserResponse<AppUserDto>> GetUserById(Guid id)
+    {
+        var result = await _usersRepository.GetUserByUserIdAsync(id);
+        
+        if (result is null) return UserResponse<AppUserDto>.Failure(null, $"User with {id} id not found");
+        
+        return UserResponse<AppUserDto>.Success(_mapper.Map<AppUserDto>(result));
+    }
 }

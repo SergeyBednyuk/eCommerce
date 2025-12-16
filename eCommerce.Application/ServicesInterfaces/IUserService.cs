@@ -9,4 +9,5 @@ public interface IUserService
 {
     Task<AuthenticationResponse> Login(LoginRequest request);
     Task<AuthenticationResponse> Register(RegisterRequest request);
+    Task<UserResponse<AppUserDto>> GetUserById(Guid id);
 }
