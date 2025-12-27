@@ -13,12 +13,13 @@ public class DapperDbContext
     {
         _configuration = configuration;
         string connectionStringTemplate = _configuration.GetConnectionString("PostgresConnection")!;
+        
         string connectionString = connectionStringTemplate
-            .Replace("$POSTGRES_HOST", Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? "localhost")
-            .Replace("$POSTGRES_PASSWORD", Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? "Legion13")
-            .Replace("$POSTGRES_PORT", Environment.GetEnvironmentVariable("POSTGRES_PORT") ?? "5433")
-            .Replace("$POSTGRES_USER", Environment.GetEnvironmentVariable("POSTGRES_USER") ?? "postgres")
-            .Replace("$POSTGRES_DATABASE", Environment.GetEnvironmentVariable("POSTGRES_DATABASE") ?? "eCommerce.Users");
+            .Replace("$POSTGRES_HOST", _configuration["POSTGRES_HOST"] ?? "localhost")
+            .Replace("$POSTGRES_PASSWORD", _configuration["POSTGRES_PASSWORD"] ?? "Legion13")
+            .Replace("$POSTGRES_PORT", _configuration["POSTGRES_PORT"] ?? "5433")
+            .Replace("$POSTGRES_USER", _configuration["POSTGRES_USER"] ?? "postgres")
+            .Replace("$POSTGRES_DATABASE", _configuration["POSTGRES_DATABASE"] ?? "eCommerce.Users");
 
         _dbConnection = new NpgsqlConnection(connectionString);
     }
