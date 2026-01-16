@@ -32,7 +32,7 @@ RUN dotnet build "eCommerce.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 # Publish
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "eCommerce.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "eCommerce.Api.csproj" -c $BUILD_CONFIdocGURATION -o /app/publish /p:UseAppHost=false
 
 # 3. Final Image
 FROM base AS final
